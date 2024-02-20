@@ -1,0 +1,11 @@
+dbs:
+  - path: data/liteq.db
+    replicas:
+      - url: s3://$bucket/$path/queuebee/liteq.db
+        snapshot-interval: 1h
+        retention: 72h
+  - path: data/queuebee.db
+    replicas:
+      - url: s3://$bucket/$path/queuebee/queuebee.db
+        snapshot-interval: 1h
+        retention: 72h

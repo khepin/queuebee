@@ -1,0 +1,40 @@
+{
+    "display_information": {
+        "name": "QueueBee",
+        "description": "Queue management in your channels",
+        "background_color": "#004492"
+    },
+    "features": {
+        "bot_user": {
+            "display_name": "QueueBee",
+            "always_online": false
+        },
+        "slash_commands": [
+            {
+                "command": "/qbee",
+                "url": "https://$domain/slack/commands/queuebee",
+                "description": "QueueBee",
+                "usage_hint": "join | leave | skip | list | ack | config | help",
+                "should_escape": false
+            }
+        ]
+    },
+    "oauth_config": {
+        "scopes": {
+            "bot": [
+                "commands",
+                "chat:write",
+                "chat:write.public"
+            ]
+        }
+    },
+    "settings": {
+        "interactivity": {
+            "is_enabled": true,
+            "request_url": "https://$domain/slack/interactivity"
+        },
+        "org_deploy_enabled": false,
+        "socket_mode_enabled": false,
+        "token_rotation_enabled": false
+    }
+}

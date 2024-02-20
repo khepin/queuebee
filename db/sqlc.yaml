@@ -1,0 +1,16 @@
+version: "2"
+sql:
+  # App
+  - engine: "sqlite"
+    queries: "queries.sql"
+    schema: "schema.sql"
+    gen:
+      go:
+        package: "queries"
+        out: "../queries"
+        emit_result_struct_pointers: true
+        overrides:
+          - column: "queues.config"
+            go_type:
+              import: ""
+              type: "Config"
