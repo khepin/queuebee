@@ -43,6 +43,8 @@ The app takes in the following 4 env variables as config:
 ```env
 SLACK_SECRET=
 SLACK_SIGNING_SECRET=
+SLACK_APP_TOKEN= # Required for Socket Mode only
+SOCKETMODE="true|false" # Enable socket mode if you don't want the app exposing endpoints publicly
 LITEQ_DB="liteq.db" # path to a database file that stores delayed jobs (warn a user that time is about to expire)
 QUEUEBEE_DB="queuebee.db" # main DB file
 ```
