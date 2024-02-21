@@ -11,6 +11,7 @@ import (
 	"github.com/khepin/liteq"
 	"github.com/khepin/queuebee/queries"
 	"github.com/slack-go/slack"
+	"github.com/slack-go/slack/socketmode"
 )
 
 type App struct {
@@ -23,6 +24,7 @@ type App struct {
 type Slack struct {
 	Secret        string
 	Client        *slack.Client
+	SocketClient  *socketmode.Client
 	SigningSecret string
 }
 
@@ -30,7 +32,10 @@ func NewApp() *App {
 	slackSecret := env("SLACK_SECRET", "")
 	slackSigningSecret := env("SLACK_SIGNING_SECRET", "")
 
-	slackClient := slack.New(slackSecret)
+	slackClient := slack.New(
+		slackSecret,
+		slack.OptionAppLevelToken(env("SLACK_APP_TOKEN", "")),
+	)
 	liteqDb, err := sql.Open("sqlite3", env("LITEQ_DB", "liteq.db"))
 	if err != nil {
 		fmt.Println(err)
@@ -39,10 +44,16 @@ func NewApp() *App {
 	liteq.Setup(liteqDb)
 	jqueue := liteq.New(liteqDb)
 
+	var socketClient *socketmode.Client
+	if env("SOCKETMODE", "false") == "true" {
+		socketClient = socketmode.New(slackClient)
+	}
+
 	app := &App{
 		Slack: &Slack{
 			Secret:        slackSecret,
 			Client:        slackClient,
+			SocketClient:  socketClient,
 			SigningSecret: slackSigningSecret,
 		},
 		JobQueue: jqueue,

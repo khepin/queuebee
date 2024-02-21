@@ -1,3 +1,5 @@
+-include Makefile_local
+
 default:
 	go run *.go || (go get && go run *.go)
 
